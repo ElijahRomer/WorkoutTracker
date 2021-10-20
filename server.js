@@ -1,7 +1,7 @@
 const path = require(`path`);
 const express = require(`express`);
 const mongoose = require(`mongoose`);
-const logger = require("morgan");
+// const logger = require("morgan");
 const routes = require(`./controllers`)
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
