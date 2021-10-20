@@ -9,7 +9,11 @@ const exerciseSchema = new Schema({
   reps: Number,
   sets: Number,
   distance: Number
-})
+},
+  {
+    versionKey: false
+  }
+)
 
 // one workout consists of multiple exercises that are stored in the array in the exercises property. 
 
@@ -19,8 +23,13 @@ const WorkoutSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  exercises: [exerciseSchema]
-});
+  exercises: [exerciseSchema],
+},
+  {
+    // removes the __v fields from new entries. Done to keep the data clean during this learning exercise but during production this can actually be useful, especially with arrays of nested docs due to the fact removing or adding a doc to an array will change it's length, thus creating a situation where your code may access the wrong document. I would probably never set up a nested doc access by index anyway though lol. But this does remove all versioning benefits.
+    versionKey: false
+  }
+);
 
 const Workout = mongoose.model("Workout", WorkoutSchema);
 

@@ -28,23 +28,6 @@ router.get(`/workouts`, async (req, res) => {
 
 
 
-router.get(`/workouts/range`, async (req, res) => {
-  console.log(`API GET "/workouts/range" ROUTE SLAPPED`);
-  try {
-    // const workoutData = await Workout.find({}).populate('exercises');
-    // console.log("workoutData is as follows:");
-    // console.log(workoutData);
-    // res.status(200).json({ workoutData });
-    // query db for all workouts
-
-  } catch (err) {
-    console.log(err);
-    res.status(500).json(err);
-  }
-});
-
-
-
 // apparently this just creates an empty entry in the workout model?
 router.post(`/workouts`, async (req, res) => {
   console.log(`API POST "/workouts" ROUTE SLAPPED`);
@@ -66,12 +49,36 @@ router.post(`/workouts`, async (req, res) => {
 
 
 // This actually puts data in the workout model.
-router.put(`/workouts/:id`, (req, res) => {
+router.put(`/workouts/:id`, async (req, res) => {
   console.log(`API PUT "/workouts/${req.params.id}" ROUTE SLAPPED`)
   console.log(req.body)
+  console.log(req.query)
   try {
-    res.status(200).json({ "msg": "You have yet to write this route" })
+    let selectedWorkout = await Workout.findByIdAndUpdate(
+      { _id: req.params.id },
+      { $push: { exercises: req.body } }
+    );
+
+    console.log(selectedWorkout)
+    res.status(200).json(selectedWorkout)
     // query db for specific workout
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+
+
+router.get(`/workouts/range`, async (req, res) => {
+  console.log(`API GET "/workouts/range" ROUTE SLAPPED`);
+  try {
+    // const workoutData = await Workout.find({}).populate('exercises');
+    // console.log("workoutData is as follows:");
+    // console.log(workoutData);
+    // res.status(200).json({ workoutData });
+    // query db for all workouts
+
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
