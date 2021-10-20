@@ -1,6 +1,7 @@
 const router = require(`express`).Router();
 const Workout = require(`../models`);
 
+// Gets the most recent workout and populates on landing page
 router.get(`/workouts`, async (req, res) => {
   console.log(`API GET "/workouts" ROUTE SLAPPED`);
   console.log(req.body);
@@ -28,7 +29,7 @@ router.get(`/workouts`, async (req, res) => {
 
 
 
-// apparently this just creates an empty entry in the workout model?
+// Creates an empty Workout document and sets as the most recent workout to allow user to add exercises to it's exercise array.
 router.post(`/workouts`, async (req, res) => {
   console.log(`API POST "/workouts" ROUTE SLAPPED`);
   console.log(req.body)
@@ -52,6 +53,7 @@ router.post(`/workouts`, async (req, res) => {
 router.put(`/workouts/:id`, async (req, res) => {
   console.log(`API PUT "/workouts/${req.params.id}" ROUTE SLAPPED`)
   try {
+    // first param object is the selector, second param object is what you are updating.
     let selectedWorkout = await Workout.findByIdAndUpdate(
       { _id: req.params.id },
       { $push: { exercises: req.body } }
@@ -66,7 +68,7 @@ router.put(`/workouts/:id`, async (req, res) => {
 });
 
 
-
+// gets data to populate charts on the dashboard page
 router.get(`/workouts/range`, async (req, res) => {
   console.log(`API GET "/workouts/range" ROUTE SLAPPED`);
   try {
@@ -76,7 +78,10 @@ router.get(`/workouts/range`, async (req, res) => {
     console.log(sevenDaysAgo);
 
     let workoutsInLastSevenDays = await Workout.aggregate([
+      // Match documents whose day is greater than the date from 7 days ago. (bar chart data)
       { $match: { day: { $gt: sevenDaysAgo } } },
+
+      // Sum up durations and add totalDuration field, same as the get /workouts route above (line chart data)
       {
         $addFields: {
           totalDuration: { $sum: "$exercises.duration" }
