@@ -12,12 +12,12 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
 const db = mongoose.connection;
 
 db.on('open', () => {
-  console.log(`MONGOOSE CONNECTED`)
+  console.log(`\nMONGOOSE CONNECTED SUCCESSFULLY\n`)
   // console.log(db)
 })
 
 db.on(`error`, () => {
-  console.log(`MONGOOSE ERROR`)
+  console.log(`\n\n***MONGOOSE ERROR***\n\n`)
   console.log(error)
 })
 
