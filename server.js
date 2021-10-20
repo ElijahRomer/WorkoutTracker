@@ -4,6 +4,23 @@ const mongoose = require(`mongoose`);
 const logger = require("morgan");
 const routes = require(`./controllers`)
 
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+
+const db = mongoose.connection;
+
+db.on('open', () => {
+  console.log(`MONGOOSE CONNECTED`)
+  // console.log(db)
+})
+
+db.on(`error`, () => {
+  console.log(`MONGOOSE ERROR`)
+  console.log(error)
+})
+
 const PORT = process.env.PORT || 3000;
 
 const app = express();
@@ -17,10 +34,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(routes);
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
 
 app.listen(PORT, () => {
   console.log(`App running at http://localhost:${PORT}`);
