@@ -127,13 +127,19 @@ const workoutSeed = [
         reps: 10,
         sets: 4,
       },
+      {
+        type: 'cardio',
+        name: 'Running',
+        duration: 25,
+        distance: 4,
+      }
     ],
   },
 ];
 
 // console.log(db);
 
-Workout.deleteMany({})
+Workout.collection.deleteMany({})
   .then(() => Workout.collection.insertMany(workoutSeed))
   .then((data) => {
     console.log(data.result.n + ' records inserted!');
