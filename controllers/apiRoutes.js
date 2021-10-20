@@ -48,20 +48,17 @@ router.post(`/workouts`, async (req, res) => {
 
 
 
-// This actually puts data in the workout model.
+// This puts data in the workout model, by pushing a new exercise subdoc to the specified Workout instance's exercise array.
 router.put(`/workouts/:id`, async (req, res) => {
   console.log(`API PUT "/workouts/${req.params.id}" ROUTE SLAPPED`)
-  console.log(req.body)
-  console.log(req.query)
   try {
     let selectedWorkout = await Workout.findByIdAndUpdate(
       { _id: req.params.id },
       { $push: { exercises: req.body } }
     );
 
-    console.log(selectedWorkout)
     res.status(200).json(selectedWorkout)
-    // query db for specific workout
+
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
@@ -73,11 +70,23 @@ router.put(`/workouts/:id`, async (req, res) => {
 router.get(`/workouts/range`, async (req, res) => {
   console.log(`API GET "/workouts/range" ROUTE SLAPPED`);
   try {
-    // const workoutData = await Workout.find({}).populate('exercises');
-    // console.log("workoutData is as follows:");
-    // console.log(workoutData);
-    // res.status(200).json({ workoutData });
-    // query db for all workouts
+    // Compute the date/time from 7 days ago
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    console.log(sevenDaysAgo);
+
+    let workoutsInLastSevenDays = await Workout.aggregate([
+      { $match: { day: { $gt: sevenDaysAgo } } },
+      {
+        $addFields: {
+          totalDuration: { $sum: "$exercises.duration" }
+        }
+      }
+    ]);
+
+    console.log(workoutsInLastSevenDays);
+
+    res.status(200).json(workoutsInLastSevenDays);
 
   } catch (err) {
     console.log(err);
