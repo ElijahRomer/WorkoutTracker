@@ -7,8 +7,23 @@ router.get(`/workouts`, async (req, res) => {
   try {
     const workoutData = await Workout.find({}).populate('exercises');
     console.log("workoutData is as follows:");
-    console.log(workoutData);
-    res.status(200).json({ workoutData });
+    console.log(workoutData[0].exercises);
+    res.status(200).json(workoutData);
+    // query db for all workouts
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+router.get(`/workouts/range`, async (req, res) => {
+  console.log(`API GET "/workouts/range" ROUTE SLAPPED`);
+  console.log(req.body);
+  try {
+    // const workoutData = await Workout.find({}).populate('exercises');
+    // console.log("workoutData is as follows:");
+    // console.log(workoutData);
+    // res.status(200).json({ workoutData });
     // query db for all workouts
   } catch (err) {
     console.log(err);
