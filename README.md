@@ -3,7 +3,7 @@
 ## Description
 This application was created as a means for users to easily and conveniently track their workouts and the stats associated with them. It makes it easy to see progress, and weak spots in your fitness regimen. 
 
-I was tasked with building out and completing the database and backend for this project. It utilizes MongoDB NoSQL database as well as the Mongoose ODM for schema and constraints. It also utilizes Express and Chart.js for displaying visuals of workout trends. It was an excellent exercise in learning and developing aggregate queries to essentially pivot related data together, as well as writing a NoSQL Schema and defining the constraints in that respect.
+I was tasked with building out and completing the database and backend for this project. It utilizes MongoDB NoSQL database as well as the Mongoose ODM for schema and constraints. It also utilizes Express and Chart.js for displaying visuals of workout trends. It was an excellent exercise in learning and developing aggregate queries to pivot related data in a NoSQL database, as well as writing a NoSQL Schema and defining constraints within that paradigm.
 
 Technologies used: 
 
@@ -11,6 +11,12 @@ Technologies used:
 * Mongoose
 * Express
 * Chart.js
+
+**Click [HERE](https://workout-tracking-app-deployed.herokuapp.com/) to view the deployed application, or copy paste the following link into your browser:**
+
+```bash
+https://workout-tracking-app-deployed.herokuapp.com/
+```
   
   ![Screenshot of Workout Tracker Home Page](public/images/screenshot.jpg "Screenshot of Workout Tracker Home Page")
 
